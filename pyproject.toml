@@ -1,3 +1,27 @@
+[tool.poetry]
+name = "vscodiumbench"
+version = "0.1.0"
+description = "Configuration et outillage VSCode/VSCodium — scripts, conversion diagrammes, status line Claude Code"
+authors = ["warchosian"]
+license = "MIT"
+readme = "docs/initialisation.md"
+packages = [{include = "app", from = "src"}]
+
+[tool.poetry.dependencies]
+python = ">=3.11"
+
+[tool.poetry.group.dev.dependencies]
+commitizen = ">=3.0"
+pytest = ">=8.0"
+pytest-cov = ">=5.0"
+
+[tool.poetry.scripts]
+md2mmd = "app.conversion.commands.md2mmd:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.commitizen]
 name = "cz_conventional_commits"
 version = "0.1.0"
