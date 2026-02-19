@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "vscodiumbench"
-version = "0.1.0"
+version = "0.2.0"
 description = "Configuration et outillage VSCode/VSCodium — scripts, conversion diagrammes, status line Claude Code"
 authors = ["warchosian"]
 license = "MIT"
@@ -25,7 +25,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "0.1.0"
+version = "0.2.0"
 tag_format = "v$version"
 version_files = [
     "pyproject.toml:version = "
