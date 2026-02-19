@@ -19,6 +19,18 @@ import re
 import unicodedata
 from pathlib import Path
 
+HELP = """Usage : vscodiumbench md2mmd <fichier.md> [-o <sortie.mmd.md>]
+
+Convertit les diagrammes PlantUML et Graphviz/DOT en Mermaid.
+Par défaut génère <fichier>.mmd.md dans le même répertoire.
+
+Options :
+  -o, --output  Fichier de sortie (défaut : <fichier>.mmd.md)
+
+Exemples :
+  vscodiumbench md2mmd _diagrams/multidiagrams.md
+  vscodiumbench md2mmd _diagrams/multidiagrams.md -o out/result.mmd.md"""
+
 
 def _fix_stdout_encoding():
     """Corrige l'encodage UTF-8 de stdout sur Windows (à appeler uniquement depuis main)."""
@@ -362,7 +374,7 @@ def convert_diagram(diagram_type, content):
 # Orchestrateur principal
 # ---------------------------------------------------------------------------
 
-def convert_file(input_path):
+def convert_file(input_path, output_path=None):
     """
     Convertit un fichier Markdown en remplaçant les diagrammes PlantUML/DOT par Mermaid.
 
@@ -396,7 +408,7 @@ def convert_file(input_path):
 
         if not blocks:
             print("[INFO] Aucun diagramme PlantUML/DOT trouvé — fichier copié tel quel")
-            output_path = path.parent / (path.stem + '.mmd.md')
+            output_path = Path(output_path) if output_path else path.parent / (path.stem + '.mmd.md')
             output_path.write_text(content, encoding='utf-8')
             print(f"[OK] Créé : {output_path}")
             return True
@@ -427,7 +439,7 @@ def convert_file(input_path):
             conversion_count += 1
             print(f"[OK] Converti : {block['type']} → mermaid")
 
-        output_path = path.parent / (path.stem + '.mmd.md')
+        output_path = Path(output_path) if output_path else path.parent / (path.stem + '.mmd.md')
         output_path.write_text(converted_content, encoding='utf-8')
 
         print(f"[OK] {conversion_count} diagramme(s) converti(s)")
@@ -456,17 +468,17 @@ def convert_file(input_path):
 def main():
     """Point d'entrée principal."""
     _fix_stdout_encoding()
-    if len(sys.argv) < 2:
-        print("Usage : python md2mmd.py <fichier.md>")
-        print()
-        print("Convertit les diagrammes PlantUML et Graphviz/DOT en Mermaid.")
-        print("Génère <fichier>.mmd.md dans le même répertoire.")
-        print()
-        print("Exemple :")
-        print("  python md2mmd.py _diagrams/multidiagrams.md")
-        return 1
-
-    result = convert_file(sys.argv[1])
+    import argparse
+    parser = argparse.ArgumentParser(
+        prog='md2mmd',
+        description='Convertit les diagrammes PlantUML et Graphviz/DOT en Mermaid.',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='Exemple :\n  vscodiumbench md2mmd _diagrams/multidiagrams.md',
+    )
+    parser.add_argument('input', help='Fichier Markdown source (.md)')
+    parser.add_argument('-o', '--output', help='Fichier de sortie (défaut : <input>.mmd.md)')
+    args = parser.parse_args()
+    result = convert_file(args.input, args.output)
     return 0 if result else 1
 
 

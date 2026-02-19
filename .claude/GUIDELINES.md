@@ -4,6 +4,15 @@ Ce fichier contient les **directives générales applicables à tous les projets
 
 ---
 
+## Style de communication
+
+- Sois bref et direct
+- Ne répète pas le contenu des fichiers après édition
+- N'explique pas les modifications sauf si demandé
+- Pas de narration de progression
+
+---
+
 ## ⚠️🚨 INTERDICTION ABSOLUE - FRAMEWORK TYPER 🚨⚠️
 
 ### **NE JAMAIS UTILISER TYPER - TOUJOURS UTILISER ARGPARSE**
