@@ -93,7 +93,7 @@ vscodiumbench/
 │   ├── install_vscode_config.py    # Copie la config VSCode dans un projet cible
 │   ├── settings.json.template      # Template de config VSCode à distribuer
 │   ├── statusline.py               # Status line Claude Code (tokens, coût, temps)
-│   └── vscode/
+│   └── vscode_extensions/
 │       ├── install_vscode_extensions.py    # Installe les extensions recommandées
 │       └── uninstall_vscode_extensions.py  # Désinstalle les extensions redondantes
 ├── .gitignore
@@ -113,18 +113,51 @@ python scripts/install_vscode_config.py <chemin_vers_le_projet>
 
 Copie `settings.json.template` et `activate_with_vscodium.bat` dans le dossier `.vscode/` du projet cible.
 
-### Installer les extensions VSCode recommandées
+### Installer les extensions VSCode/VSCodium pour les diagrammes
+
+Le script `scripts/vscode_extensions/install_vscode_extensions.py` installe les extensions nécessaires au rendu des diagrammes PlantUML, Mermaid et Graphviz.
 
 ```bash
 # Mode 1 : extensions ESSENTIELLES seulement
-python scripts/vscode/install_vscode_extensions.py --mode 1
+python scripts/vscode_extensions/install_vscode_extensions.py --mode 1
 
 # Mode 2 : ESSENTIELLES + FORTEMENT RECOMMANDÉES (défaut)
-python scripts/vscode/install_vscode_extensions.py --mode 2
+python scripts/vscode_extensions/install_vscode_extensions.py --mode 2
 
 # Mode 3 : TOUTES les extensions
-python scripts/vscode/install_vscode_extensions.py --mode 3
+python scripts/vscode_extensions/install_vscode_extensions.py --mode 3
 ```
+
+**Extensions installées par priorité :**
+
+| Priorité | Extension | Rôle |
+|---|---|---|
+| ESSENTIEL | `jebbs.plantuml` | Rendu PlantUML |
+| ESSENTIEL | `bierner.markdown-mermaid` | Rendu Mermaid dans Markdown |
+| ESSENTIEL | `tintinweb.graphviz-interactive-preview` | Preview interactif Graphviz |
+| ESSENTIEL | `geeklearningio.graphviz-markdown-preview` | Graphviz dans Markdown |
+| FORTEMENT RECOMMANDÉ | `shd101wyy.markdown-preview-enhanced` | Preview tout-en-un (PlantUML + Mermaid + Graphviz) |
+| OPTIONNEL | `vstirbu.vscode-mermaid-preview` | Preview dédié Mermaid |
+| OPTIONNEL | `hediet.vscode-drawio` | Éditeur Draw.io intégré |
+| OPTIONNEL | `gera2ld.markmap-vscode` | Mind maps depuis Markdown |
+
+### Tester les extensions avec `_diagrams/multidiagrams.md`
+
+Après installation, vérifiez que tout fonctionne en ouvrant le fichier de test :
+
+```bash
+# Ouvrir dans VSCodium
+codium _diagrams/multidiagrams.md
+```
+
+1. Ouvrez `_diagrams/multidiagrams.md` dans VSCodium
+2. Ouvrez la preview (`Ctrl+Shift+V` ou clic droit → *Open Preview*)
+3. Vérifiez que les **9 diagrammes** s'affichent correctement :
+   - 3 diagrammes **PlantUML** (séquence, classes, états)
+   - 3 diagrammes **Mermaid** (flowchart, séquence, gantt)
+   - 3 diagrammes **Graphviz/DOT** (graphe orienté, non orienté, arbre)
+
+> Si un type de diagramme n'apparaît pas, relancez le mode 2 ou 3 du script d'installation et faites un **Reload Window**.
 
 ### Installer Prince XML
 
