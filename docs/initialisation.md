@@ -152,27 +152,29 @@ La status line est activée dans `.claude/settings.json` :
 {
   "statusLine": {
     "type": "command",
-    "command": "python scripts/statusline.py"
+    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
   }
 }
 ```
+
+> **Important** : utilisez toujours un **chemin absolu**. Un chemin relatif est résolu depuis le répertoire de travail courant de la session Claude Code — s'il change en cours de session, le script ne sera plus trouvé et la status line disparaîtra silencieusement.
 
 Claude Code pipe automatiquement un JSON de session vers le script via `stdin` à chaque mise à jour. Le script lit ce JSON et retourne une ligne formatée.
 
 ### Activer sur un autre projet
 
-Copiez la section `statusLine` dans le `.claude/settings.json` de votre projet cible, en ajustant le chemin vers `statusline.py` :
+Copiez la section `statusLine` dans le `.claude/settings.json` de votre projet cible avec le chemin absolu vers `statusline.py` :
 
 ```json
 {
   "statusLine": {
     "type": "command",
-    "command": "python <chemin_vers_vscodiumbench>/scripts/statusline.py"
+    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
   }
 }
 ```
 
-Ou copiez directement `scripts/statusline.py` dans le dossier de votre projet et référencez-le localement.
+Ou copiez directement `scripts/statusline.py` dans le projet cible et utilisez son chemin absolu.
 
 ### Prérequis
 

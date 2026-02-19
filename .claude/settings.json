@@ -8,7 +8,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "python scripts/statusline.py"
+    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
   },
   "ui": {
     "compact": false,
