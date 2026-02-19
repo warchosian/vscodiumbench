@@ -29,14 +29,18 @@
 
 ### 1. Créer l'environnement
 
+L'environnement a été créé avec un chemin absolu (`-p`) pour l'intégrer directement dans le répertoire Anaconda portable :
+
 ```bash
-conda create -n vscodiumbench python=3.11 -y
+conda create -p G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench python=3.14
 ```
+
+> **Note** : L'option `-p` installe l'environnement à un chemin précis plutôt que dans le répertoire conda par défaut. Adaptez le chemin à votre installation Anaconda.
 
 ### 2. Activer l'environnement
 
 ```bash
-conda activate vscodiumbench
+conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench
 ```
 
 ### 3. Installer les dépendances
