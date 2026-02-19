@@ -221,13 +221,69 @@ git push origin preprod/v0.2.0-stable --tags
 
 ## Adaptation des chemins locaux
 
-Les fichiers suivants contiennent des chemins absolus spécifiques à l'environnement local. Ils doivent être adaptés lors du déploiement sur une nouvelle machine :
+Tous les chemins ci-dessous sont spécifiques à l'environnement d'origine et **doivent être adaptés** sur toute nouvelle machine.
 
-| Fichier | Chemin à adapter |
+---
+
+### `.claude/settings.json` — Status Line
+
+```json
+"command": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
+```
+
+| Partie | Valeur à remplacer | Description |
+|---|---|---|
+| `python.exe` | Chemin complet vers `python.exe` du conda env | Trouver avec `where python` après activation |
+| `statusline.py` | Chemin absolu vers le script | Chemin de clonage du dépôt |
+
+> **Pourquoi le chemin absolu est obligatoire** : Claude Code exécute la commande depuis un shell dont le `PATH` ne contient pas forcément l'environnement conda actif. Un chemin relatif ou la commande `python` seule échouera silencieusement.
+
+---
+
+### `scripts/activate_with_vscodium.bat`
+
+```bat
+call "G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\Scripts\activate.bat" %1
+set "PATH=G:\WarchoLife\WarchoPortable\PortableCommon\VSCodium\vscodium-1.109.41146\bin;%PATH%"
+```
+
+| Ligne | Valeur à remplacer |
 |---|---|
-| `scripts/activate_with_vscodium.bat` | Chemin Anaconda et VSCodium |
-| `scripts/install_prince.py` | `INSTALL_DIR` (ligne 19) |
-| `.vscode/settings.json` | Chemins Python, PlantUML JAR, Graphviz |
-| `scripts/settings.json.template` | Chemin PlantUML JAR |
+| `activate.bat` | Chemin vers le dossier `Scripts` de votre Anaconda |
+| `vscodium-...` | Chemin vers le dossier `bin` de votre VSCodium |
 
-> Le template `scripts/settings.json.template` est la version à distribuer — adaptez-le avant de l'utiliser sur une nouvelle machine via `install_vscode_config.py`.
+---
+
+### `scripts/install_prince.py` — ligne 19
+
+```python
+INSTALL_DIR = Path(r"G:\WarchoLife\WarchoPortable\PortableCommon\PrinceXml")
+```
+
+Remplacez par le chemin d'installation souhaité pour Prince XML.
+
+---
+
+### `.vscode/settings.json`
+
+```json
+"python.defaultInterpreterPath": "G:\\...\\python.exe",
+"plantuml.jar": "G:\\...\\plantuml-x.x.jar",
+"graphviz.dot": "G:\\...\\dot.exe"
+```
+
+| Clé | Valeur à remplacer |
+|---|---|
+| `python.defaultInterpreterPath` | Chemin vers `python.exe` du conda env du projet |
+| `plantuml.jar` | Chemin vers le fichier `.jar` PlantUML téléchargé |
+| `graphviz.dot` | Chemin vers l'exécutable `dot.exe` de Graphviz |
+
+---
+
+### `scripts/settings.json.template`
+
+Même structure que `.vscode/settings.json` — c'est la version à distribuer sur d'autres projets. Adaptez le chemin `plantuml.jar` avant utilisation via `install_vscode_config.py`.
+
+---
+
+> **Astuce** : après avoir adapté tous les chemins, lancez un `Reload Window` dans VSCodium pour appliquer les changements de `.claude/settings.json`.
