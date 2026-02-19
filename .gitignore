@@ -1,0 +1,82 @@
+# ============================================================
+# Python
+# ============================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+.env
+.envrc
+
+# ============================================================
+# Logs
+# ============================================================
+logs/
+*.log
+
+# ============================================================
+# Sauvegardes et temporaires
+# ============================================================
+*.bak
+*.backup
+*.old
+*.tmp
+*.swp
+*.swo
+*~
+
+# ============================================================
+# OS
+# ============================================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ============================================================
+# IDE
+# ============================================================
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ============================================================
+# Projet specifique
+# ============================================================
+# PDFs generes (sauf les diagrammes de reference)
+_diagrams/*.pdf
+
+# Packages de distribution
+dist/
+dist-offline/
+*.whl
+
+# Secrets (ne jamais commiter)
+.env.local
+.env.*.local
+secrets.yaml
+credentials.json
+*.key
+*.pem
+*.secret

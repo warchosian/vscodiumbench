@@ -1,0 +1,44 @@
+{
+    "liveServer.settings.port": 5501,
+    "makefile.configureOnOpen": false,
+    "python.defaultInterpreterPath": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\${workspaceFolderBasename}\\python.exe",
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.condaPath": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\condabin\\conda.bat",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "terminal.integrated.profiles.windows": {
+        "Command Prompt": {
+            "path": "C:\\WINDOWS\\system32\\cmd.exe",
+            "args": [
+                "/k",
+                "${workspaceFolder}\\.vscode\\activate_with_vscodium.bat",
+                "${workspaceFolderBasename}"
+            ]
+        },
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": [
+                "-Command",
+                "& 'G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\Scripts\\activate.bat' ${workspaceFolderBasename}"
+            ]
+        }
+    },
+    "python.envFile": "${workspaceFolder}/.env",
+    "git.path": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\${workspaceFolderBasename}\\Library\\bin\\git.exe",
+
+    // 🔥 Désactivation des suggestions intrusives
+    "editor.suggest.preview": false,
+    "editor.inlineSuggest.enabled": false,
+
+    // 🧠 Contrôle fin de Claude Code (optionnel mais recommandé)
+    "claude-code.autoTriggerInlineSuggestions": false,
+    "claude-code.showStatusBarIcon": true,
+
+    // Configuration PlantUML - Rendu LOCAL avec votre JAR
+    "plantuml.render": "Local",
+    "plantuml.jar": "G:/WarchoLife/WarchoDevplace/Gitlab_Applications/tools/plantuml/plantuml-1.2026.1.jar",
+
+    // Configuration Markdown Preview Enhanced - PlantUML local
+    "markdown-preview-enhanced.plantumlJarPath": "G:/WarchoLife/WarchoDevplace/Gitlab_Applications/tools/plantuml/plantuml-1.2026.1.jar",
+    "markdown-preview-enhanced.usePandocParser": false
+}

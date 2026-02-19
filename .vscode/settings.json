@@ -1,0 +1,48 @@
+{
+    "liveServer.settings.port": 5501,
+    "makefile.configureOnOpen": false,
+    "python.defaultInterpreterPath": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\${workspaceFolderBasename}\\python.exe",
+    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.condaPath": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\condabin\\conda.bat",
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "terminal.integrated.profiles.windows": {
+        "Command Prompt": {
+            "path": "C:\\WINDOWS\\system32\\cmd.exe",
+            "args": [
+                "/k",
+                "${workspaceFolder}\\.vscode\\activate_with_vscodium.bat",
+                "${workspaceFolderBasename}"
+            ]
+        },
+        "PowerShell": {
+            "source": "PowerShell",
+            "args": [
+                "-Command",
+                "& 'G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\Scripts\\activate.bat' ${workspaceFolderBasename}"
+            ]
+        }
+    },
+    "python.envFile": "${workspaceFolder}/.env",
+    "git.path": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\${workspaceFolderBasename}\\Library\\bin\\git.exe",
+   
+    // 🔥 Désactivation des suggestions intrusives
+    "editor.suggest.preview": false,
+    "editor.inlineSuggest.enabled": false,
+
+    // 🧠 Contrôle fin de Claude Code (optionnel mais recommandé)
+    "claude-code.autoTriggerInlineSuggestions": false,
+    "claude-code.showStatusBarIcon": true,
+
+    // 🌿 Configuration PlantUML - Rendu LOCAL avec variable d'environnement
+    "plantuml.render": "Local",
+    "plantuml.jar": "${env:PLANTUML_JAR}",
+
+    // 🔗 Configuration Graphviz - Utilise variable d'environnement
+    "graphviz-interactive-preview.dotPath": "${env:GRAPHVIZ_EXE}",
+
+    // 📝 Configuration Markdown Preview Enhanced
+    "markdown-preview-enhanced.plantumlJarPath": "${env:PLANTUML_JAR}",
+    "markdown-preview-enhanced.graphvizPath": "G:/WarchoLife/WarchoDevplace/Gitlab_Applications/tools/graphviz/Graphviz-14.1.2-win64/bin",
+    "markdown-preview-enhanced.usePandocParser": false
+}

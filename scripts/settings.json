@@ -1,0 +1,29 @@
+
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": ""
+  },
+  "ui": {
+    "compact": false,
+    "suggestions": false
+  },
+     // 🌿 Configuration PlantUML - Rendu LOCAL avec variable d'environnement
+    "plantuml.render": "Local",
+    "plantuml.jar": "G:/WarchoLife/WarchoDevplace/Gitlab_Applications/tools/plantuml/plantuml-1.2026.1.jar",
+
+    // 🔗 Configuration Graphviz - Utilise variable d'environnement
+    "graphviz-interactive-preview.dotPath": "${env:GRAPHVIZ_EXE}",
+
+    // 📝 Configuration Markdown Preview Enhanced
+    "markdown-preview-enhanced.plantumlJarPath": "G:/WarchoLife/WarchoDevplace/Gitlab_Applications/tools/plantuml/plantuml-1.2026.1.jar",
+    "markdown-preview-enhanced.graphvizPath": "G:/WarchoLife/WarchoDevplace/Gitlab_Applications/tools/graphviz/Graphviz-14.1.2-win64/bin",
+    "markdown-preview-enhanced.usePandocParser": false
+}
