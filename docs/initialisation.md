@@ -56,7 +56,7 @@ pip install commitizen
 ### 4. Vérifier l'installation
 
 ```bash
-python --version          # Python 3.11.x
+python --version          # Python 3.14.x
 cz version                # commitizen x.x.x
 ```
 
@@ -137,6 +137,46 @@ python scripts/install_prince.py
 ```bat
 scripts\activate_with_vscodium.bat <nom_env_conda>
 ```
+
+---
+
+## Status Line Claude Code
+
+`scripts/statusline.py` affiche en temps réel dans la barre de statut de Claude Code : modèle actif, tokens utilisés, coût estimé, cache et durée de session.
+
+### Configuration
+
+La status line est activée dans `.claude/settings.json` :
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "python scripts/statusline.py"
+  }
+}
+```
+
+Claude Code pipe automatiquement un JSON de session vers le script via `stdin` à chaque mise à jour. Le script lit ce JSON et retourne une ligne formatée.
+
+### Activer sur un autre projet
+
+Copiez la section `statusLine` dans le `.claude/settings.json` de votre projet cible, en ajustant le chemin vers `statusline.py` :
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "python <chemin_vers_vscodiumbench>/scripts/statusline.py"
+  }
+}
+```
+
+Ou copiez directement `scripts/statusline.py` dans le dossier de votre projet et référencez-le localement.
+
+### Prérequis
+
+Aucune dépendance externe — le script utilise uniquement `json`, `sys` et `io` (bibliothèque standard Python).
 
 ---
 

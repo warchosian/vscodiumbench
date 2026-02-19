@@ -8,7 +8,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "python tools/statusline.py"
+    "command": "python scripts/statusline.py"
   },
   "ui": {
     "compact": false,
