@@ -53,6 +53,13 @@ RECOMMENDED_EXTENSIONS = {
         "priority": "ESSENTIEL"
     },
 
+    # Kroki - FORTEMENT RECOMMANDÉ
+    "pomdtr.vscode-kroki": {
+        "description": "Kroki - Preview universel : C4, PlantUML, Mermaid, DOT, Excalidraw, etc. via kroki.io",
+        "category": "🔷 Kroki",
+        "priority": "FORTEMENT RECOMMANDÉ"
+    },
+
     # Markdown tout-en-un - FORTEMENT RECOMMANDÉ
     "shd101wyy.markdown-preview-enhanced": {
         "description": "Markdown Preview Enhanced - Supporte PlantUML, Mermaid, Graphviz et +",
