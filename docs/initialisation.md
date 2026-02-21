@@ -16,7 +16,7 @@
 
 | Outil | Version minimale | Notes |
 |---|---|---|
-| Anaconda / Miniconda | 3.x | Gestionnaire d'environnements Python |
+| Python | 3.14+ | Langage de base (inclus dans Python) |
 | VSCodium | 1.109+ | Editeur principal |
 | Git | 2.x | Gestion de version |
 | Java (JRE/JDK) | 11+ | Requis par PlantUML |
@@ -25,23 +25,42 @@
 
 ---
 
-## Création de l'environnement conda
+## Création de l'environnement virtuel
 
 ### 1. Créer l'environnement
 
-L'environnement a été créé avec un chemin absolu (`-p`) pour l'intégrer directement dans le répertoire Anaconda portable :
+Utilisez `python -m venv` pour créer un environnement virtuel isolé. Vous pouvez le placer n'importe où :
 
+**Option A : Dans le projet (recommandé pour développement)**
 ```bash
-conda create -p G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench python=3.14
+python -m venv venv
 ```
 
-> **Note** : L'option `-p` installe l'environnement à un chemin précis plutôt que dans le répertoire conda par défaut. Adaptez le chemin à votre installation Anaconda.
+**Option B : Dans un répertoire contrôlé** (par exemple, un dossier portable)
+```bash
+python -m venv G:\MyEnvs\vscodiumbench
+```
+
+Adaptez le chemin à votre structure de répertoires. Cela crée un dossier contenant l'environnement virtuel Python avec `Scripts/python.exe`.
 
 ### 2. Activer l'environnement
 
+**Sur Windows (cmd) :**
 ```bash
-conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench
+venv\Scripts\activate.bat
 ```
+
+**Sur Windows (PowerShell) :**
+```powershell
+venv\Scripts\Activate.ps1
+```
+
+**Sur Linux/macOS :**
+```bash
+source venv/bin/activate
+```
+
+Vous devriez voir `(venv)` au début de votre prompt.
 
 ### 3. Installer les dépendances
 
@@ -87,7 +106,6 @@ vscodiumbench/
 ├── docs/
 │   └── initialisation.md           # Ce fichier
 ├── scripts/
-│   ├── activate_with_vscodium.bat  # Active conda + ajoute VSCodium au PATH
 │   ├── install_prince.bat          # Installe Prince XML (bat wrapper)
 │   ├── install_prince.py           # Télécharge et installe Prince XML 15.3
 │   ├── install_vscode_config.py    # Copie la config VSCode dans un projet cible
@@ -96,6 +114,7 @@ vscodiumbench/
 │   └── vscode_extensions/
 │       ├── install_vscode_extensions.py    # Installe les extensions recommandées
 │       └── uninstall_vscode_extensions.py  # Désinstalle les extensions redondantes
+├── venv/                           # Environnement virtuel Python (python -m venv)
 ├── .gitignore
 ├── CHANGELOG.md                    # Généré par commitizen
 └── pyproject.toml                  # Configuration commitizen
@@ -165,10 +184,21 @@ codium _diagrams/multidiagrams.md
 python scripts/install_prince.py
 ```
 
-### Activer conda + VSCodium dans un terminal
+### Activer l'environnement virtuel + VSCodium dans un terminal
 
+**Depuis cmd :**
 ```bat
-scripts\activate_with_vscodium.bat <nom_env_conda>
+venv\Scripts\activate.bat && codium .
+```
+
+**Depuis PowerShell :**
+```powershell
+venv\Scripts\Activate.ps1; codium .
+```
+
+**Depuis bash (Git Bash, WSL, etc.) :**
+```bash
+source venv/Scripts/activate && codium .
 ```
 
 ---
@@ -261,29 +291,38 @@ Tous les chemins ci-dessous sont spécifiques à l'environnement d'origine et **
 ### `.claude/settings.json` — Status Line
 
 ```json
-"command": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
+"command": "C:\\Users\\username\\vscodiumbench\\venv\\Scripts\\python.exe C:\\Users\\username\\vscodiumbench\\scripts\\statusline.py"
 ```
 
 | Partie | Valeur à remplacer | Description |
 |---|---|---|
-| `python.exe` | Chemin complet vers `python.exe` du conda env | Trouver avec `where python` après activation |
+| `python.exe` | Chemin complet vers `venv\Scripts\python.exe` | Chemin jusqu'au dossier venv du projet |
 | `statusline.py` | Chemin absolu vers le script | Chemin de clonage du dépôt |
 
-> **Pourquoi le chemin absolu est obligatoire** : Claude Code exécute la commande depuis un shell dont le `PATH` ne contient pas forcément l'environnement conda actif. Un chemin relatif ou la commande `python` seule échouera silencieusement.
+**Pour trouver le chemin Python après activation :**
+```bash
+where python
+```
+
+> **Pourquoi le chemin absolu est obligatoire** : Claude Code exécute la commande depuis un shell dont le `PATH` ne contient pas forcément l'environnement virtuel actif. Un chemin relatif ou la commande `python` seule échouera silencieusement.
 
 ---
 
-### `scripts/activate_with_vscodium.bat`
+### Activation manuelle avec venv
 
+Pour activer l'environnement virtuel depuis un terminal cmd/PowerShell :
+
+**Windows cmd :**
 ```bat
-call "G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\Scripts\activate.bat" %1
-set "PATH=G:\WarchoLife\WarchoPortable\PortableCommon\VSCodium\vscodium-1.109.41146\bin;%PATH%"
+venv\Scripts\activate.bat
 ```
 
-| Ligne | Valeur à remplacer |
-|---|---|
-| `activate.bat` | Chemin vers le dossier `Scripts` de votre Anaconda |
-| `vscodium-...` | Chemin vers le dossier `bin` de votre VSCodium |
+**Windows PowerShell :**
+```powershell
+venv\Scripts\Activate.ps1
+```
+
+Après activation, utilisez simplement `python` ou `pip` sans chemin absolu.
 
 ---
 
@@ -307,7 +346,7 @@ Remplacez par le chemin d'installation souhaité pour Prince XML.
 
 | Clé | Valeur à remplacer |
 |---|---|
-| `python.defaultInterpreterPath` | Chemin vers `python.exe` du conda env du projet |
+| `python.defaultInterpreterPath` | Chemin vers `venv\Scripts\python.exe` du projet |
 | `plantuml.jar` | Chemin vers le fichier `.jar` PlantUML téléchargé |
 | `graphviz.dot` | Chemin vers l'exécutable `dot.exe` de Graphviz |
 
