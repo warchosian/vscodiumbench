@@ -8,7 +8,7 @@ readme = "docs/initialisation.md"
 packages = [{include = "app", from = "src"}]
 
 [tool.poetry.dependencies]
-python = ">=3.11"
+python = ">=3.14"
 
 [tool.poetry.group.dev.dependencies]
 commitizen = ">=3.0"
