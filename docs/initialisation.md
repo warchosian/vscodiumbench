@@ -27,40 +27,57 @@
 
 ## Création de l'environnement virtuel
 
-### 1. Créer l'environnement
+Deux approches sont possibles. Choisissez celle qui correspond à votre installation.
 
-Utilisez `python -m venv` pour créer un environnement virtuel isolé. Vous pouvez le placer n'importe où :
+### Option A : Avec `python -m venv` (standard)
 
-**Option A : Dans le projet (recommandé pour développement)**
+Créez un environnement virtuel isolé :
+
 ```bash
 python -m venv venv
 ```
 
-**Option B : Dans un répertoire contrôlé** (par exemple, un dossier portable)
+Ou dans un répertoire contrôlé :
+
 ```bash
 python -m venv G:\MyEnvs\vscodiumbench
 ```
 
-Adaptez le chemin à votre structure de répertoires. Cela crée un dossier contenant l'environnement virtuel Python avec `Scripts/python.exe`.
+Cela crée un dossier contenant l'environnement virtuel Python avec `Scripts/python.exe`.
+
+### Option B : Avec Conda (Anaconda/Miniconda portable)
+
+Créez un environnement dans un chemin absolu pour l'intégrer au portable :
+
+```bash
+conda create -p G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench python=3.14
+```
+
+Adaptez le chemin à votre installation Anaconda — l'important est que l'env soit dans un **répertoire contrôlé et portable**.
 
 ### 2. Activer l'environnement
 
-**Sur Windows (cmd) :**
+**Avec venv (Option A) — Windows cmd :**
 ```bash
 venv\Scripts\activate.bat
 ```
 
-**Sur Windows (PowerShell) :**
+**Avec venv (Option A) — Windows PowerShell :**
 ```powershell
 venv\Scripts\Activate.ps1
 ```
 
-**Sur Linux/macOS :**
+**Avec venv (Option A) — Linux/macOS :**
 ```bash
 source venv/bin/activate
 ```
 
-Vous devriez voir `(venv)` au début de votre prompt.
+**Avec Conda (Option B) — Tous les OS :**
+```bash
+conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench
+```
+
+Vous devriez voir `(venv)` ou le nom de l'env Conda au début de votre prompt.
 
 ### 3. Installer les dépendances
 
@@ -114,10 +131,14 @@ vscodiumbench/
 │   └── vscode_extensions/
 │       ├── install_vscode_extensions.py    # Installe les extensions recommandées
 │       └── uninstall_vscode_extensions.py  # Désinstalle les extensions redondantes
-├── venv/                           # Environnement virtuel Python (python -m venv)
+├── src/
+│   └── app/                        # Code source (md2mmd, conversion, CLI)
+├── tests/                          # Tests unitaires
+├── venv/ (optionnel)               # Environnement virtuel Python (python -m venv)
 ├── .gitignore
 ├── CHANGELOG.md                    # Généré par commitizen
-└── pyproject.toml                  # Configuration commitizen
+├── LICENSE                         # MIT
+└── pyproject.toml                  # Configuration Poetry et commitizen
 ```
 
 ---
@@ -286,17 +307,40 @@ git push origin preprod/v0.2.0-stable --tags
 
 Tous les chemins ci-dessous sont spécifiques à l'environnement d'origine et **doivent être adaptés** sur toute nouvelle machine.
 
+### Trouver le chemin python exact
+
+Après activation de votre environnement (venv ou Conda), utilisez :
+
+```bash
+where python
+```
+
+Cela retourne le chemin complet vers `python.exe` dans votre environnement. Copiez ce chemin dans les configurations.
+
+**Exemple :**
+```
+G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench\python.exe
+```
+
+Utilisez ce chemin pour :
+
 ---
 
 ### `.claude/settings.json` — Status Line
 
+**Avec venv :**
 ```json
 "command": "C:\\Users\\username\\vscodiumbench\\venv\\Scripts\\python.exe C:\\Users\\username\\vscodiumbench\\scripts\\statusline.py"
 ```
 
+**Avec Conda :**
+```json
+"command": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
+```
+
 | Partie | Valeur à remplacer | Description |
 |---|---|---|
-| `python.exe` | Chemin complet vers `venv\Scripts\python.exe` | Chemin jusqu'au dossier venv du projet |
+| `python.exe` | Chemin complet vers python.exe | Obtenu via `where python` après activation |
 | `statusline.py` | Chemin absolu vers le script | Chemin de clonage du dépôt |
 
 **Pour trouver le chemin Python après activation :**
@@ -304,25 +348,33 @@ Tous les chemins ci-dessous sont spécifiques à l'environnement d'origine et **
 where python
 ```
 
-> **Pourquoi le chemin absolu est obligatoire** : Claude Code exécute la commande depuis un shell dont le `PATH` ne contient pas forcément l'environnement virtuel actif. Un chemin relatif ou la commande `python` seule échouera silencieusement.
+> **Pourquoi le chemin absolu est obligatoire** : Claude Code exécute la commande depuis un shell dont le `PATH` ne contient pas forcément l'environnement actif. Un chemin relatif ou la commande `python` seule échouera silencieusement.
 
 ---
 
-### Activation manuelle avec venv
+### Activation manuelle de l'environnement
 
-Pour activer l'environnement virtuel depuis un terminal cmd/PowerShell :
-
-**Windows cmd :**
+**Avec venv — Windows cmd :**
 ```bat
 venv\Scripts\activate.bat
 ```
 
-**Windows PowerShell :**
+**Avec venv — Windows PowerShell :**
 ```powershell
 venv\Scripts\Activate.ps1
 ```
 
+**Avec Conda — Tous les OS :**
+```bash
+conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench
+```
+
 Après activation, utilisez simplement `python` ou `pip` sans chemin absolu.
+
+Pour trouver le chemin exact du python activé :
+```bash
+where python
+```
 
 ---
 
@@ -338,15 +390,23 @@ Remplacez par le chemin d'installation souhaité pour Prince XML.
 
 ### `.vscode/settings.json`
 
+**Avec venv :**
 ```json
-"python.defaultInterpreterPath": "G:\\...\\python.exe",
+"python.defaultInterpreterPath": "C:\\Users\\username\\vscodiumbench\\venv\\Scripts\\python.exe",
+"plantuml.jar": "G:\\...\\plantuml-x.x.jar",
+"graphviz.dot": "G:\\...\\dot.exe"
+```
+
+**Avec Conda :**
+```json
+"python.defaultInterpreterPath": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe",
 "plantuml.jar": "G:\\...\\plantuml-x.x.jar",
 "graphviz.dot": "G:\\...\\dot.exe"
 ```
 
 | Clé | Valeur à remplacer |
 |---|---|
-| `python.defaultInterpreterPath` | Chemin vers `venv\Scripts\python.exe` du projet |
+| `python.defaultInterpreterPath` | Chemin retourné par `where python` après activation |
 | `plantuml.jar` | Chemin vers le fichier `.jar` PlantUML téléchargé |
 | `graphviz.dot` | Chemin vers l'exécutable `dot.exe` de Graphviz |
 
