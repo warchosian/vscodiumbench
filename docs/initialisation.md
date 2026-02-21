@@ -19,7 +19,7 @@
 | Python | 3.14+ | Langage de base (inclus dans Python) |
 | VSCodium | 1.109+ | Editeur principal |
 | Git | 2.x | Gestion de version |
-| Java (JRE/JDK) | 11+ | Requis par PlantUML |
+| Java (JRE/JDK) | 21+ | Requis par PlantUML (OpenJDK Temurin 21.0.10+) |
 | Graphviz | 2.x | Requis pour les diagrammes DOT |
 | Prince XML | 15.3 | Requis pour generation PDF (optionnel) |
 
