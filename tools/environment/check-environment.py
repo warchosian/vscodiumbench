@@ -14,9 +14,15 @@ Usage:
 """
 
 import sys
+import io
 import subprocess
 import shutil
 from pathlib import Path
+
+# Force UTF-8 encoding for stdout on Windows
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
 
 
 def run_command(cmd):
