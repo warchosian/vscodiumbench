@@ -31,19 +31,15 @@ Deux approches sont possibles. Choisissez celle qui correspond à votre installa
 
 ### Option A : Avec `python -m venv` (standard)
 
-Créez un environnement virtuel isolé :
-
-```bash
-python -m venv venv
-```
-
-Ou dans un répertoire contrôlé :
+**Important** : Créez venv dans un **répertoire contrôlé et absolu** (pas relatif), pour que `.vscode/settings.json` puisse le référencer correctement.
 
 ```bash
 python -m venv G:\MyEnvs\vscodiumbench
 ```
 
-Cela crée un dossier contenant l'environnement virtuel Python avec `Scripts/python.exe`.
+Adaptez `G:\MyEnvs\` à votre structure de répertoires. Cela crée un dossier contenant l'environnement virtuel Python avec `Scripts/python.exe`.
+
+> **⚠️ N'utilisez PAS `python -m venv venv`** : un chemin relatif ne fonctionne pas bien avec les chemins absolus de `.vscode/settings.json`.
 
 ### Option B : Avec Conda (Anaconda/Miniconda portable)
 
@@ -59,17 +55,17 @@ Adaptez le chemin à votre installation Anaconda — l'important est que l'env s
 
 **Avec venv (Option A) — Windows cmd :**
 ```bash
-venv\Scripts\activate.bat
+G:\MyEnvs\vscodiumbench\Scripts\activate.bat
 ```
 
 **Avec venv (Option A) — Windows PowerShell :**
 ```powershell
-venv\Scripts\Activate.ps1
+G:\MyEnvs\vscodiumbench\Scripts\Activate.ps1
 ```
 
 **Avec venv (Option A) — Linux/macOS :**
 ```bash
-source venv/bin/activate
+source /path/to/env/bin/activate
 ```
 
 **Avec Conda (Option B) — Tous les OS :**
@@ -77,7 +73,7 @@ source venv/bin/activate
 conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench
 ```
 
-Vous devriez voir `(venv)` ou le nom de l'env Conda au début de votre prompt.
+Vous devriez voir `(vscodiumbench)` ou le nom de l'env au début de votre prompt.
 
 ### 3. Installer les dépendances
 
@@ -205,21 +201,21 @@ codium _diagrams/multidiagrams.md
 python scripts/install_prince.py
 ```
 
-### Activer l'environnement virtuel + VSCodium dans un terminal
+### Activer l'environnement + VSCodium dans un terminal
 
-**Depuis cmd :**
+**Avec venv — Depuis cmd :**
 ```bat
-venv\Scripts\activate.bat && codium .
+G:\MyEnvs\vscodiumbench\Scripts\activate.bat && cd G:\WarchoLife\WarchoDevplace\Gitlab_Applications\vscodiumbench && codium .
 ```
 
-**Depuis PowerShell :**
+**Avec venv — Depuis PowerShell :**
 ```powershell
-venv\Scripts\Activate.ps1; codium .
+G:\MyEnvs\vscodiumbench\Scripts\Activate.ps1; cd G:\WarchoLife\WarchoDevplace\Gitlab_Applications\vscodiumbench; codium .
 ```
 
-**Depuis bash (Git Bash, WSL, etc.) :**
+**Avec Conda :**
 ```bash
-source venv/Scripts/activate && codium .
+conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench && cd G:\WarchoLife\WarchoDevplace\Gitlab_Applications\vscodiumbench && codium .
 ```
 
 ---
@@ -315,14 +311,19 @@ Après activation de votre environnement (venv ou Conda), utilisez :
 where python
 ```
 
-Cela retourne le chemin complet vers `python.exe` dans votre environnement. Copiez ce chemin dans les configurations.
+Cela retourne le chemin complet vers `python.exe` dans votre environnement.
 
-**Exemple :**
+**Exemple avec Conda :**
 ```
 G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\envs\vscodiumbench\python.exe
 ```
 
-Utilisez ce chemin pour :
+**Exemple avec venv :**
+```
+G:\MyEnvs\vscodiumbench\Scripts\python.exe
+```
+
+**Utilisez ce chemin pour :
 
 ---
 
@@ -356,12 +357,12 @@ where python
 
 **Avec venv — Windows cmd :**
 ```bat
-venv\Scripts\activate.bat
+G:\MyEnvs\vscodiumbench\Scripts\activate.bat
 ```
 
 **Avec venv — Windows PowerShell :**
 ```powershell
-venv\Scripts\Activate.ps1
+G:\MyEnvs\vscodiumbench\Scripts\Activate.ps1
 ```
 
 **Avec Conda — Tous les OS :**
@@ -371,10 +372,12 @@ conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\env
 
 Après activation, utilisez simplement `python` ou `pip` sans chemin absolu.
 
-Pour trouver le chemin exact du python activé :
+**Pour trouver le chemin exact du python activé :**
 ```bash
 where python
 ```
+
+Copiez ce chemin dans `.vscode/settings.json` et `.claude/settings.json`.
 
 ---
 
@@ -390,19 +393,26 @@ Remplacez par le chemin d'installation souhaité pour Prince XML.
 
 ### `.vscode/settings.json`
 
-**Avec venv :**
+**Avec venv (Option A — chemin absolu) :**
 ```json
-"python.defaultInterpreterPath": "C:\\Users\\username\\vscodiumbench\\venv\\Scripts\\python.exe",
+"python.defaultInterpreterPath": "G:\\MyEnvs\\vscodiumbench\\Scripts\\python.exe",
 "plantuml.jar": "G:\\...\\plantuml-x.x.jar",
 "graphviz.dot": "G:\\...\\dot.exe"
 ```
 
-**Avec Conda :**
+**Avec Conda (Option B) :**
 ```json
 "python.defaultInterpreterPath": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe",
 "plantuml.jar": "G:\\...\\plantuml-x.x.jar",
 "graphviz.dot": "G:\\...\\dot.exe"
 ```
+
+> **Important** : Le chemin dans `python.defaultInterpreterPath` **DOIT** être absolu et correspondre exactement au répertoire d'installation de votre environnement.
+
+**Pour trouver la bonne valeur :**
+1. Activez votre environnement (venv ou Conda)
+2. Exécutez `where python`
+3. Copiez le chemin complet dans `python.defaultInterpreterPath`
 
 | Clé | Valeur à remplacer |
 |---|---|
