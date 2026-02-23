@@ -118,15 +118,20 @@ vscodiumbench/
 │   └── multidiagrams.pdf           # PDF généré
 ├── docs/
 │   └── initialisation.md           # Ce fichier
-├── scripts/
-│   ├── install_prince.bat          # Installe Prince XML (bat wrapper)
-│   ├── install_prince.py           # Télécharge et installe Prince XML 15.3
-│   ├── install_vscode_config.py    # Copie la config VSCode dans un projet cible
-│   ├── settings.json.template      # Template de config VSCode à distribuer
-│   ├── statusline.py               # Status line Claude Code (tokens, coût, temps)
-│   └── vscode_extensions/
-│       ├── install_vscode_extensions.py    # Installe les extensions recommandées
-│       └── uninstall_vscode_extensions.py  # Désinstalle les extensions redondantes
+├── tools/                          # Outils et scripts utilitaires
+│   ├── claude-code/
+│   │   └── statusline.py           # Status line Claude Code (tokens, coût, temps)
+│   ├── vscode/
+│   │   ├── install-config.py       # Copie la config VSCode dans un projet cible
+│   │   ├── settings.json.template  # Template de config VSCode à distribuer
+│   │   └── extensions/
+│   │       ├── install_vscode_extensions.py    # Installe les extensions recommandées
+│   │       └── uninstall_vscode_extensions.py  # Désinstalle les extensions redondantes
+│   ├── environment/
+│   │   └── check-environment.py    # Vérifie Python, Java, Git, etc.
+│   └── install/
+│       ├── prince.py               # Télécharge et installe Prince XML 15.3
+│       └── prince.bat              # Installe Prince XML (bat wrapper)
 ├── src/
 │   └── app/                        # Code source (md2mmd, conversion, CLI)
 ├── tests/                          # Tests unitaires
@@ -139,29 +144,39 @@ vscodiumbench/
 
 ---
 
-## Utilisation des scripts
+## Utilisation des outils
+
+### Vérifier l'environnement
+
+Avant de commencer, vérifiez que votre environnement est correct :
+
+```bash
+python tools/environment/check-environment.py
+```
+
+Cela vérifie : Python, Java, Git, VSCode/VSCodium, Graphviz, Commitizen, Poetry.
 
 ### Installer la config VSCode dans un projet
 
 ```bash
-python scripts/install_vscode_config.py <chemin_vers_le_projet>
+python tools/vscode/install-config.py <chemin_vers_le_projet>
 ```
 
-Copie `settings.json.template` et `activate_with_vscodium.bat` dans le dossier `.vscode/` du projet cible.
+Copie `settings.json.template` et configure VSCode pour le projet cible.
 
 ### Installer les extensions VSCode/VSCodium pour les diagrammes
 
-Le script `scripts/vscode_extensions/install_vscode_extensions.py` installe les extensions nécessaires au rendu des diagrammes PlantUML, Mermaid et Graphviz.
+Le script `tools/vscode/extensions/install_vscode_extensions.py` installe les extensions nécessaires au rendu des diagrammes PlantUML, Mermaid et Graphviz.
 
 ```bash
 # Mode 1 : extensions ESSENTIELLES seulement
-python scripts/vscode_extensions/install_vscode_extensions.py --mode 1
+python tools/vscode/extensions/install_vscode_extensions.py --mode 1
 
 # Mode 2 : ESSENTIELLES + FORTEMENT RECOMMANDÉES (défaut)
-python scripts/vscode_extensions/install_vscode_extensions.py --mode 2
+python tools/vscode/extensions/install_vscode_extensions.py --mode 2
 
 # Mode 3 : TOUTES les extensions
-python scripts/vscode_extensions/install_vscode_extensions.py --mode 3
+python tools/vscode/extensions/install_vscode_extensions.py --mode 3
 ```
 
 **Extensions installées par priorité :**
@@ -198,7 +213,7 @@ codium _diagrams/multidiagrams.md
 ### Installer Prince XML
 
 ```bash
-python scripts/install_prince.py
+python tools/install/prince.py
 ```
 
 ### Activer l'environnement + VSCodium dans un terminal
@@ -222,7 +237,7 @@ conda activate G:\WarchoLife\WarchoPortable\PortableWork\Anaconda\anaconda-3\env
 
 ## Status Line Claude Code
 
-`scripts/statusline.py` affiche en temps réel dans la barre de statut de Claude Code : modèle actif, tokens utilisés, coût estimé, cache et durée de session.
+`tools/claude-code/statusline.py` affiche en temps réel dans la barre de statut de Claude Code : modèle actif, tokens utilisés, coût estimé, cache et durée de session.
 
 ### Configuration
 
@@ -232,7 +247,7 @@ La status line est activée dans `.claude/settings.json` :
 {
   "statusLine": {
     "type": "command",
-    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
+    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\tools\\claude-code\\statusline.py"
   }
 }
 ```
@@ -249,12 +264,12 @@ Copiez la section `statusLine` dans le `.claude/settings.json` de votre projet c
 {
   "statusLine": {
     "type": "command",
-    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
+    "command": "python G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\tools\\claude-code\\statusline.py"
   }
 }
 ```
 
-Ou copiez directement `scripts/statusline.py` dans le projet cible et utilisez son chemin absolu.
+Ou copiez directement `tools/claude-code/statusline.py` dans le projet cible et utilisez son chemin absolu.
 
 ### Prérequis
 
@@ -331,12 +346,12 @@ G:\MyEnvs\vscodiumbench\Scripts\python.exe
 
 **Avec venv :**
 ```json
-"command": "C:\\Users\\username\\vscodiumbench\\venv\\Scripts\\python.exe C:\\Users\\username\\vscodiumbench\\scripts\\statusline.py"
+"command": "C:\\Users\\username\\vscodiumbench\\venv\\Scripts\\python.exe C:\\Users\\username\\vscodiumbench\\tools\\claude-code\\statusline.py"
 ```
 
 **Avec Conda :**
 ```json
-"command": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\scripts\\statusline.py"
+"command": "G:\\WarchoLife\\WarchoPortable\\PortableWork\\Anaconda\\anaconda-3\\envs\\vscodiumbench\\python.exe G:\\WarchoLife\\WarchoDevplace\\Gitlab_Applications\\vscodiumbench\\tools\\claude-code\\statusline.py"
 ```
 
 | Partie | Valeur à remplacer | Description |
@@ -381,7 +396,7 @@ Copiez ce chemin dans `.vscode/settings.json` et `.claude/settings.json`.
 
 ---
 
-### `scripts/install_prince.py` — ligne 19
+### `tools/install/prince.py` — ligne 19
 
 ```python
 INSTALL_DIR = Path(r"G:\WarchoLife\WarchoPortable\PortableCommon\PrinceXml")
@@ -422,7 +437,7 @@ Remplacez par le chemin d'installation souhaité pour Prince XML.
 
 ---
 
-### `scripts/settings.json.template`
+### `tools/vscode/settings.json.template`
 
 Même structure que `.vscode/settings.json` — c'est la version à distribuer sur d'autres projets. Adaptez le chemin `plantuml.jar` avant utilisation via `install_vscode_config.py`.
 
